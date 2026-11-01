@@ -16,7 +16,7 @@
         
         .card { background: white; border-radius: 12px; overflow: hidden; box-shadow: 0 4px 10px rgba(0,0,0,0.08); transition: transform 0.2s; display: flex; flex-direction: column; justify-content: space-between; }
         .card:hover { transform: translateY(-5px); }
-        .card-img { width: 100%; height: 180px; background-color: #e2e8f0; display: flex; align-items: center; justify-content: center; font-size: 3rem; }
+        .card-img { width: 100%; height: 180px; background-color: #e2e8f0; display: flex; align-items: center; justify-content: center; font-size: 3.5rem; }
         .card-body { padding: 18px; flex-grow: 1; display: flex; flex-direction: column; justify-content: space-between; }
         .badge { display: inline-block; background-color: #e0f2fe; color: #0369a1; font-size: 0.75rem; font-weight: bold; padding: 4px 8px; border-radius: 6px; margin-bottom: 8px; width: fit-content; }
         .title { font-size: 1.1rem; font-weight: bold; margin-bottom: 8px; color: #0f172a; }
@@ -24,6 +24,9 @@
         
         .btn-ws { display: block; width: 100%; background-color: #25d366; color: white; text-align: center; text-decoration: none; padding: 12px; border-radius: 8px; font-weight: bold; font-size: 0.95rem; transition: background 0.2s; }
         .btn-ws:hover { background-color: #1eb857; }
+        .btn-disabled { background-color: #94a3b8; cursor: not-allowed; pointer-events: none; }
+        
+        #loading { text-align: center; padding: 40px; font-size: 1.1rem; color: #64748b; }
     </style>
 </head>
 <body>
@@ -34,58 +37,94 @@
     </header>
 
     <div class="container">
-        <div class="grid">
-            
-            <!-- Producto 1 -->
-            <div class="card">
-                <div class="card-img">🥓</div>
-                <div class="card-body">
-                    <div>
-                        <span class="badge">🚀 Nuevo Lanzamiento</span>
-                        <div class="title">Snack Deshidratado de Cerdo 100g</div>
-                        <p style="font-size: 0.85rem; color: #64748b;">Premio 100% natural, crujiente, libre de químicos y conservantes. Ideal para la salud dental.</p>
-                    </div>
-                    <div>
-                        <div class="price">25.000 Gs.</div>
-                        <a href="https://wa.me/?text=Hola!%20Quiero%20comprar%20el%20Snack%20Deshidratado%20de%20Cerdo%20100g%20por%2025.000%20Gs." target="_blank" class="btn-ws">💬 Comprar por WhatsApp</a>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Producto 2 -->
-            <div class="card">
-                <div class="card-img">🍪</div>
-                <div class="card-body">
-                    <div>
-                        <span class="badge">🚀 Nuevo Lanzamiento</span>
-                        <div class="title">Galletas Naturales de Avena y Pollo 200g</div>
-                        <p style="font-size: 0.85rem; color: #64748b;">Horneadas artesanalmente con avena digestiva y pechuga de pollo real.</p>
-                    </div>
-                    <div>
-                        <div class="price">20.000 Gs.</div>
-                        <a href="https://wa.me/?text=Hola!%20Quiero%20comprar%20las%20Galletas%20de%20Avena%20y%20Pollo%20por%2020.000%20Gs." target="_blank" class="btn-ws">💬 Comprar por WhatsApp</a>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Producto 3 -->
-            <div class="card">
-                <div class="card-img">🦴</div>
-                <div class="card-body">
-                    <div>
-                        <span class="badge">★ Producto Estrella</span>
-                        <div class="title">Mordillo de Cuero Natural Resistente L</div>
-                        <p style="font-size: 0.85rem; color: #64748b;">Masticable de alta duración para reducir el estrés y entretener a tu perro.</p>
-                    </div>
-                    <div>
-                        <div class="price">37.000 Gs.</div>
-                        <a href="https://wa.me/?text=Hola!%20Quiero%20comprar%20el%20Mordillo%20de%20Cuero%20Resistente%20por%2037.000%20Gs." target="_blank" class="btn-ws">💬 Comprar por WhatsApp</a>
-                    </div>
-                </div>
-            </div>
-
-        </div>
+        <div id="loading">Cargando catálogo en vivo... 🐾</div>
+        <div class="grid" id="products-grid"></div>
     </div>
+
+    <script>
+        const SHEET_CSV_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vTUUvkmJHaiaqcD-2RM66_Xphqi3S3FHBcVvPHqYNBD5Rji9ODvN5AnFSqsBJAYEz6sh8AxFkHuwGF3/pub?gid=0&single=true&output=csv";
+
+        function parseCSV(text) {
+            const lines = text.trim().split('\n');
+            const result = [];
+            for (let i = 1; i < lines.length; i++) {
+                if (!lines[i].trim()) continue;
+                const row = lines[i].split(/,(?=(?:(?:[^"]*"){2})*[^"]*$)/).map(cell => cell.replace(/^"|"$/g, '').trim());
+                result.push(row);
+            }
+            return result;
+        }
+
+        function getEmojiForCategory(category) {
+            const cat = (category || '').toLowerCase();
+            if (cat.includes('snack')) return '🥓';
+            if (cat.includes('galleta')) return '🍪';
+            if (cat.includes('juguete') || cat.includes('mordillo')) return '🦴';
+            return '🐾';
+        }
+
+        function formatGuarani(val) {
+            const num = parseInt(val.toString().replace(/\D/g, ''), 10);
+            return isNaN(num) ? val : num.toLocaleString('es-PY') + ' Gs.';
+        }
+
+        async function loadProducts() {
+            try {
+                const response = await fetch(SHEET_CSV_URL);
+                const csvData = await response.text();
+                const rows = parseCSV(csvData);
+                
+                const grid = document.getElementById('products-grid');
+                const loading = document.getElementById('loading');
+                grid.innerHTML = '';
+                
+                rows.forEach(row => {
+                    // ID(0), Categoria(1), Nombre(2), Descripcion(3), Costo(4), Margen(5), Precio(6), Stock(7), Estado(8), Clasificacion(9)
+                    const category = row[1] || '';
+                    const name = row[2] || '';
+                    const desc = row[3] || '';
+                    const price = row[6] || '';
+                    const state = row[8] || 'Disponible';
+                    const badgeText = row[9] || '';
+                    
+                    const isAvailable = state.toLowerCase() === 'disponible';
+                    const emoji = getEmojiForCategory(category);
+                    const formattedPrice = formatGuarani(price);
+                    
+                    const message = encodeURIComponent(`Hola! Quiero comprar ${name} por ${formattedPrice}`);
+                    const wsUrl = `https://wa.me/?text=${message}`;
+                    
+                    const card = document.createElement('div');
+                    card.className = 'card';
+                    card.innerHTML = `
+                        <div class="card-img">${emoji}</div>
+                        <div class="card-body">
+                            <div>
+                                ${badgeText ? `<span class="badge">${badgeText}</span>` : ''}
+                                <div class="title">${name}</div>
+                                <p style="font-size: 0.85rem; color: #64748b;">${desc}</p>
+                            </div>
+                            <div>
+                                <div class="price">${formattedPrice}</div>
+                                ${isAvailable 
+                                    ? `<a href="${wsUrl}" target="_blank" class="btn-ws">💬 Comprar por WhatsApp</a>`
+                                    : `<a href="#" class="btn-ws btn-disabled">Agotado</a>`}
+                            </div>
+                        </div>
+                    `;
+                    grid.appendChild(card);
+                });
+                
+                loading.style.display = 'none';
+                
+            } catch (error) {
+                console.error("Error al cargar productos:", error);
+                document.getElementById('loading').innerText = 'Error al cargar el catálogo. Revisa la conexión de la planilla.';
+            }
+        }
+
+        loadProducts();
+    </script>
 
 </body>
 </html>
