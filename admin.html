@@ -19,13 +19,26 @@
 
         /* CONTENIDO PRINCIPAL */
         main { flex-grow: 1; display: flex; flex-direction: column; overflow-y: auto; }
-        header { background-color: #ffffff; padding: 15px 30px; border-bottom: 1px solid #e2e8f0; display: flex; justify-content: space-between; align-items: center; }
+        header { background-color: #ffffff; padding: 15px 30px; border-bottom: 1px solid #e2e8f0; display: flex; justify-content: space-between; align-items: center; position: relative; }
         header h2 { font-size: 1.25rem; font-weight: 700; }
-        .user-badge { display: flex; align-items: center; gap: 10px; font-size: 0.85rem; font-weight: 600; color: #475569; }
+        
+        /* MENU DESPLEGABLE DE USUARIO */
+        .user-menu-container { position: relative; cursor: pointer; }
+        .user-badge { display: flex; align-items: center; gap: 10px; font-size: 0.85rem; font-weight: 600; color: #475569; padding: 8px 14px; border-radius: 8px; border: 1px solid #e2e8f0; background-color: #f8fafc; transition: background 0.2s; }
+        .user-badge:hover { background-color: #f1f5f9; }
+        
+        .dropdown-menu { display: none; position: absolute; right: 0; top: 110%; width: 230px; background-color: white; border: 1px solid #e2e8f0; border-radius: 10px; box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1); padding: 8px 0; z-index: 100; }
+        .dropdown-menu.show { display: block; }
+        
+        .dropdown-info { padding: 10px 16px; border-bottom: 1px solid #f1f5f9; font-size: 0.8rem; }
+        .dropdown-info .store-title { font-weight: 700; color: #0f172a; font-size: 0.9rem; }
+        .dropdown-info .user-email { color: #64748b; margin-top: 2px; }
+        
+        .dropdown-item { display: flex; align-items: center; gap: 10px; padding: 10px 16px; font-size: 0.85rem; color: #dc2626; font-weight: 600; text-decoration: none; cursor: pointer; transition: background 0.2s; }
+        .dropdown-item:hover { background-color: #fef2f2; }
 
+        /* DASHBOARD METRICS */
         .dashboard-container { padding: 30px; display: flex; flex-direction: column; gap: 25px; }
-
-        /* GRILLA DE METRICAS */
         .section-title { font-size: 0.8rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em; color: #94a3b8; margin-bottom: 12px; }
         .metrics-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 15px; }
         .metric-card { background: white; padding: 20px; border-radius: 12px; border: 1px solid #e2e8f0; display: flex; flex-direction: column; gap: 8px; }
@@ -42,7 +55,7 @@
 
     <!-- MENÚ LATERAL -->
     <aside>
-        <div class="sidebar-brand">🐾 Lolo Mascotas</div>
+        <div class="sidebar-brand" id="sidebar-brand-name">🐾 Lolo Mascotas</div>
         <a href="https://numerosdelasuertepy.github.io/tienda-mascotas/" target="_blank" class="btn-view-store">🌐 Ver Tienda</a>
         <ul class="sidebar-menu">
             <li><a href="#" class="menu-item active">📊 Dashboard</a></li>
@@ -64,8 +77,21 @@
                 <h2>Dashboard Administrador</h2>
                 <p style="font-size: 0.85rem; color: #64748b;">Panel de control en tiempo real</p>
             </div>
-            <div class="user-badge">
-                🟢 Tienda Activa | 👤 Administrador
+            
+            <!-- PERFIL DE USUARIO DESPLEGABLE -->
+            <div class="user-menu-container" id="userMenuBtn">
+                <div class="user-badge">
+                    🟢 <span id="header-store-status">Tienda Activa</span> | 👤 <span id="header-user-role">Administrador</span> ▼
+                </div>
+                <div class="dropdown-menu" id="userDropdown">
+                    <div class="dropdown-info">
+                        <div class="store-title" id="drop-store-name">Lolo Mascotas</div>
+                        <div class="user-email" id="drop-user-email">admin@tienda.com</div>
+                    </div>
+                    <div class="dropdown-item" id="btnLogout">
+                        🚪 Cerrar Sesión
+                    </div>
+                </div>
             </div>
         </header>
 
@@ -119,6 +145,36 @@
     </main>
 
     <script>
+        // 1. GESTIÓN DE SESIÓN Y MENÚ DESPLEGABLE
+        const storeName = localStorage.getItem('storeName') || 'Lolo Mascotas';
+        const userEmail = localStorage.getItem('userEmail') || 'admin@tienda.com';
+
+        // Actualizar datos en pantalla
+        document.getElementById('sidebar-brand-name').innerText = '🐾 ' + storeName;
+        document.getElementById('drop-store-name').innerText = storeName;
+        document.getElementById('drop-user-email').innerText = userEmail;
+
+        // Toggle Menú Desplegable
+        const userMenuBtn = document.getElementById('userMenuBtn');
+        const userDropdown = document.getElementById('userDropdown');
+
+        userMenuBtn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            userDropdown.classList.toggle('show');
+        });
+
+        document.addEventListener('click', () => {
+            userDropdown.classList.remove('show');
+        });
+
+        // Evento Cerrar Sesión
+        document.getElementById('btnLogout').addEventListener('click', () => {
+            localStorage.removeItem('userEmail');
+            alert('Has cerrado sesión correctamente.');
+            window.location.href = 'login.html';
+        });
+
+        // 2. CONEXIÓN A GOOGLE SHEETS
         const SHEET_CSV_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vTUUvkmJHaiaqcD-2RM66_Xphqi3S3FHBcVvPHqYNBD5Rji9ODvN5AnFSqsBJAYEz6sh8AxFkHuwGF3/pub?gid=0&single=true&output=csv";
 
         function parseCSV(text) {
