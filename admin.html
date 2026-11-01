@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Panel Administrador - Lolo Mascotas</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Inter', sans-serif; }
+        body { background-color: #f8fafc; color: #1e293b; display: flex; height: 100vh; overflow: hidden; }
+
+        /* MENU LATERAL (SIDEBAR) */
+        aside { width: 260px; background-color: #ffffff; border-right: 1px solid #e2e8f0; display: flex; flex-direction: column; }
+        .sidebar-brand { padding: 20px; font-size: 1.1rem; font-weight: 700; color: #2563eb; border-bottom: 1px solid #f1f5f9; display: flex; align-items: center; gap: 10px; }
+        .sidebar-menu { list-style: none; padding: 15px 10px; overflow-y: auto; flex-grow: 1; }
+        .menu-item { display: flex; align-items: center; gap: 12px; padding: 12px 15px; color: #64748b; text-decoration: none; border-radius: 8px; font-size: 0.9rem; font-weight: 500; margin-bottom: 4px; transition: all 0.2s; }
+        .menu-item:hover, .menu-item.active { background-color: #eff6ff; color: #2563eb; font-weight: 600; }
+        .btn-view-store { margin: 15px 10px; padding: 12px; background-color: #2563eb; color: white; border-radius: 8px; text-decoration: none; text-align: center; font-weight: 600; font-size: 0.9rem; }
+
+        /* CONTENIDO PRINCIPAL */
+        main { flex-grow: 1; display: flex; flex-direction: column; overflow-y: auto; }
+        header { background-color: #ffffff; padding: 15px 30px; border-bottom: 1px solid #e2e8f0; display: flex; justify-content: space-between; align-items: center; }
+        header h2 { font-size: 1.25rem; font-weight: 700; }
+        .user-badge { display: flex; align-items: center; gap: 10px; font-size: 0.85rem; font-weight: 600; color: #475569; }
+
+        .dashboard-container { padding: 30px; display: flex; flex-direction: column; gap: 25px; }
+
+        /* GRILLA DE METRICAS */
+        .section-title { font-size: 0.8rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em; color: #94a3b8; margin-bottom: 12px; }
+        .metrics-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 15px; }
+        .metric-card { background: white; padding: 20px; border-radius: 12px; border: 1px solid #e2e8f0; display: flex; flex-direction: column; gap: 8px; }
+        .metric-label { font-size: 0.8rem; font-weight: 600; color: #64748b; text-transform: uppercase; }
+        .metric-value { font-size: 1.5rem; font-weight: 700; color: #0f172a; }
+        .metric-sub { font-size: 0.75rem; color: #94a3b8; }
+
+        .two-cols { display: grid; grid-template-columns: 2fr 1fr; gap: 20px; }
+        .panel-box { background: white; padding: 20px; border-radius: 12px; border: 1px solid #e2e8f0; }
+        .panel-header { font-weight: 700; font-size: 1rem; margin-bottom: 15px; color: #1e293b; }
+    </style>
+</head>
+<body>
+
+    <!-- MENÚ LATERAL -->
+    <aside>
+        <div class="sidebar-brand">🐾 Lolo Mascotas</div>
+        <a href="https://numerosdelasuertepy.github.io/tienda-mascotas/" target="_blank" class="btn-view-store">🌐 Ver Tienda</a>
+        <ul class="sidebar-menu">
+            <li><a href="#" class="menu-item active">📊 Dashboard</a></li>
+            <li><a href="#" class="menu-item">🛒 Pedidos</a></li>
+            <li><a href="#" class="menu-item">👥 Clientes</a></li>
+            <li><a href="#" class="menu-item">💵 Caja & Finanzas</a></li>
+            <li><a href="#" class="menu-item">📈 Reportes</a></li>
+            <li><a href="#" class="menu-item">📦 Menú / Productos</a></li>
+            <li><a href="#" class="menu-item">🛵 Delivery</a></li>
+            <li><a href="#" class="menu-item">🏷️ Cupones</a></li>
+            <li><a href="#" class="menu-item">⚙️ Configuración</a></li>
+        </ul>
+    </aside>
+
+    <!-- ÁREA DE CONTENIDO -->
+    <main>
+        <header>
+            <div>
+                <h2>Dashboard Administrador</h2>
+                <p style="font-size: 0.85rem; color: #64748b;">Panel de control en tiempo real</p>
+            </div>
+            <div class="user-badge">
+                🟢 Tienda Activa | 👤 Administrador
+            </div>
+        </header>
+
+        <div class="dashboard-container">
+            
+            <!-- MÉTRICAS PRINCIPALES -->
+            <div>
+                <div class="section-title">Métricas Generales en Vivo</div>
+                <div class="metrics-grid">
+                    <div class="metric-card">
+                        <span class="metric-label">Productos en Menú</span>
+                        <span class="metric-value" id="productos-totales">Cargando...</span>
+                        <span class="metric-sub">Sincronizado con Google Sheets</span>
+                    </div>
+                    <div class="metric-card">
+                        <span class="metric-label">Disponibles para Venta</span>
+                        <span class="metric-value" id="prod-disponibles">0</span>
+                        <span class="metric-sub">Estado: Disponible</span>
+                    </div>
+                    <div class="metric-card">
+                        <span class="metric-label">Productos Agotados</span>
+                        <span class="metric-value" id="prod-agotados">0</span>
+                        <span class="metric-sub">Sin stock actual</span>
+                    </div>
+                    <div class="metric-card">
+                        <span class="metric-label">Estado de la Base</span>
+                        <span class="metric-value" style="color: #16a34a; font-size: 1.2rem;">Conectado 🟢</span>
+                        <span class="metric-sub">Planilla maestra activa</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ESTADO DEL INVENTARIO -->
+            <div class="two-cols">
+                <div class="panel-box">
+                    <div class="panel-header">Resumen Operativo del Catálogo</div>
+                    <p style="font-size: 0.95rem; color: #475569; line-height: 1.6;">
+                        Tu panel ya está leyendo directamente la pestaña <strong style="color: #2563eb;">PRODUCTOS_STOCK</strong> de tu Google Sheet. Cada cambio que hagas en la planilla se actualizará aquí de forma automática.
+                    </p>
+                </div>
+
+                <div class="panel-box">
+                    <div class="panel-header">Acceso Rápido</div>
+                    <p style="font-size: 0.9rem; color: #64748b;">
+                        Haz clic en el botón superior <strong style="color: #2563eb;">"Ver Tienda"</strong> para comprobar cómo se visualizan los cambios de precios y stock cara al cliente.
+                    </p>
+                </div>
+            </div>
+
+        </div>
+    </main>
+
+    <script>
+        const SHEET_CSV_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vTUUvkmJHaiaqcD-2RM66_Xphqi3S3FHBcVvPHqYNBD5Rji9ODvN5AnFSqsBJAYEz6sh8AxFkHuwGF3/pub?gid=0&single=true&output=csv";
+
+        function parseCSV(text) {
+            const lines = text.trim().split('\n');
+            const result = [];
+            for (let i = 1; i < lines.length; i++) {
+                if (!lines[i].trim()) continue;
+                const row = lines[i].split(/,(?=(?:(?:[^"]*"){2})*[^"]*$)/).map(cell => cell.replace(/^"|"$/g, '').trim());
+                result.push(row);
+            }
+            return result;
+        }
+
+        async function loadDashboardData() {
+            try {
+                const response = await fetch(SHEET_CSV_URL);
+                const csvData = await response.text();
+                const rows = parseCSV(csvData);
+
+                let totalProductos = rows.length;
+                let disponibles = 0;
+                let agotados = 0;
+
+                rows.forEach(row => {
+                    const estado = (row[8] || '').toLowerCase();
+                    if (estado === 'disponible') disponibles++;
+                    else agotados++;
+                });
+
+                document.getElementById('productos-totales').innerText = totalProductos;
+                document.getElementById('prod-disponibles').innerText = disponibles;
+                document.getElementById('prod-agotados').innerText = agotados;
+
+            } catch (error) {
+                console.error("Error al conectar con la planilla:", error);
+                document.getElementById('productos-totales').innerText = "Error de conexión";
+            }
+        }
+
+        loadDashboardData();
+    </script>
+</body>
+</html>
