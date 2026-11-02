@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mesas y Barras - Lolo SaaS</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Inter', sans-serif; }
+        body { background-color: #f4f6f8; color: #1e293b; display: flex; height: 100vh; overflow: hidden; }
+
+        /* SIDEBAR */
+        aside { width: 250px; background-color: #ffffff; border-right: 1px solid #e2e8f0; display: flex; flex-direction: column; flex-shrink: 0; }
+        .brand-box { padding: 20px; text-align: center; border-bottom: 1px solid #f1f5f9; }
+        .btn-store { margin: 15px; padding: 12px; background-color: #2563eb; color: white; border-radius: 8px; text-decoration: none; text-align: center; font-weight: 700; font-size: 0.85rem; display: block; }
+        .menu-list { list-style: none; padding: 10px; overflow-y: auto; flex-grow: 1; }
+        .menu-link { display: flex; align-items: center; gap: 12px; padding: 10px 14px; color: #64748b; text-decoration: none; border-radius: 8px; font-size: 0.85rem; font-weight: 600; margin-bottom: 2px; }
+        .menu-link:hover, .menu-link.active { background-color: #2563eb; color: white; }
+
+        /* MAIN CONTENT */
+        main { flex-grow: 1; display: flex; flex-direction: column; overflow-y: auto; }
+        header { background-color: #ffffff; padding: 12px 25px; border-bottom: 1px solid #e2e8f0; display: flex; justify-content: space-between; align-items: center; }
+        .breadcrumb { font-size: 0.75rem; color: #94a3b8; font-weight: 700; text-transform: uppercase; }
+        .page-title { font-size: 1.2rem; font-weight: 800; color: #0f172a; }
+
+        .container { padding: 25px; display: flex; flex-direction: column; gap: 20px; }
+
+        /* HEADER CARD */
+        .header-card { background: white; border-radius: 12px; padding: 18px 24px; border: 1px solid #e2e8f0; display: flex; justify-content: space-between; align-items: center; }
+        .header-card h3 { font-size: 1rem; font-weight: 800; color: #0f172a; display: flex; align-items: center; gap: 10px; }
+        .header-card p { font-size: 0.8rem; color: #64748b; margin-top: 2px; }
+
+        .header-stats { display: flex; gap: 20px; text-align: center; }
+        .stat-item { display: flex; flex-direction: column; align-items: center; }
+        .stat-value { font-size: 0.9rem; font-weight: 800; color: #0f172a; }
+        .stat-label { font-size: 0.65rem; font-weight: 700; color: #64748b; text-transform: uppercase; }
+
+        /* FORM CARD */
+        .form-card { background: white; border-radius: 12px; padding: 18px 24px; border: 1px solid #e2e8f0; display: grid; grid-template-columns: 2fr 2fr 1fr auto; gap: 15px; align-items: flex-end; }
+        .form-group { display: flex; flex-direction: column; gap: 6px; }
+        .form-group label { font-size: 0.7rem; font-weight: 700; color: #64748b; text-transform: uppercase; }
+        .form-group input { padding: 10px 14px; border: 1px solid #cbd5e1; border-radius: 8px; font-size: 0.85rem; outline: none; background: #f8fafc; }
+        .form-group input:focus { border-color: #2563eb; background: white; }
+
+        .btn-add { background: #2563eb; color: white; border: none; padding: 10px 20px; border-radius: 8px; font-weight: 700; font-size: 0.85rem; cursor: pointer; height: 41px; }
+
+        /* EMPTY STATE / CONTAINER */
+        .grid-card { background: white; border-radius: 12px; border: 2px dashed #cbd5e1; min-height: 250px; display: flex; flex-direction: column; justify-content: center; align-items: center; padding: 40px; text-align: center; }
+        .empty-icon { font-size: 2rem; color: #94a3b8; margin-bottom: 10px; }
+        .empty-title { font-weight: 800; font-size: 0.95rem; color: #0f172a; }
+        .empty-subtitle { font-size: 0.75rem; color: #64748b; margin-top: 4px; }
+    </style>
+</head>
+<body>
+
+    <!-- MENÚ LATERAL -->
+    <aside>
+        <div class="brand-box">
+            <h3 style="font-weight: 800; color: #2563eb;">🐾 LOLO SAAS</h3>
+        </div>
+        <a href="index.html" target="_blank" class="btn-store">🌐 VER TIENDA</a>
+        <ul class="menu-list">
+            <li><a href="admin.html" class="menu-link">📊 DASHBOARD</a></li>
+            <li><a href="pedidos.html" class="menu-link">🛒 PEDIDOS</a></li>
+            <li><a href="clientes.html" class="menu-link">👤 CLIENTES</a></li>
+            <li><a href="kds.html" class="menu-link">⏱️ KDS (COCINA)</a></li>
+            <li><a href="mesas.html" class="menu-link active">🪑 MESAS</a></li>
+            <li><a href="financiero.html" class="menu-link">🏛️ FINANCIERO</a></li>
+            <li><a href="caja.html" class="menu-link">💵 CAJA</a></li>
+            <li><a href="comprobantes.html" class="menu-link">📄 COMPROBANTES</a></li>
+            <li><a href="reportes.html" class="menu-link">📈 REPORTES</a></li>
+            <li><a href="productos.html" class="menu-link">📦 MENÚ</a></li>
+            <li><a href="delivery.html" class="menu-link">🛵 DELIVERY</a></li>
+            <li><a href="cupones.html" class="menu-link">🏷️ CUPONES</a></li>
+        </ul>
+    </aside>
+
+    <!-- CONTENIDO -->
+    <main>
+        <header>
+            <div>
+                <div class="breadcrumb">INICIO > TIENDA > MI COMERCIO</div>
+                <div class="page-title">Mesas</div>
+            </div>
+            <div style="font-size: 0.85rem; font-weight: 700; color: #475569;">
+                🟢 Tienda Activa | 👤 Administrador
+            </div>
+        </header>
+
+        <div class="container">
+            
+            <!-- TARJETA ENCABEZADO Y CONTADORES -->
+            <div class="header-card">
+                <div>
+                    <h3>🪑 MESAS Y BARRAS</h3>
+                    <p>Organizá el salón, asigná pedidos y generá un QR por mesa</p>
+                </div>
+                <div class="header-stats">
+                    <div class="stat-item">
+                        <span class="stat-value">0</span>
+                        <span class="stat-label">ACTIVAS</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-value">0</span>
+                        <span class="stat-label">OCUPADAS</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-value">0</span>
+                        <span class="stat-label">SOLICITUDES</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- FORMULARIO DE AGREGAR MESA -->
+            <div class="form-card">
+                <div class="form-group">
+                    <label>NOMBRE</label>
+                    <input type="text" placeholder="Mesa 1">
+                </div>
+                <div class="form-group">
+                    <label>ÁREA</label>
+                    <input type="text" placeholder="Salón">
+                </div>
+                <div class="form-group">
+                    <label>CAPACIDAD</label>
+                    <input type="number" placeholder="4">
+                </div>
+                <button class="btn-add">+ AGREGAR</button>
+            </div>
+
+            <!-- ESTADO VACÍO -->
+            <div class="grid-card">
+                <div class="empty-icon">🪑</div>
+                <div class="empty-title">Todavía no configuraste mesas</div>
+                <div class="empty-subtitle">Agregá la primera mesa o barra usando el formulario superior.</div>
+            </div>
+
+        </div>
+    </main>
+
+</body>
+</html>
