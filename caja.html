@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Caja - Lolo SaaS</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Inter', sans-serif; }
+        body { background-color: #f4f6f8; color: #1e293b; display: flex; height: 100vh; overflow: hidden; }
+
+        /* SIDEBAR */
+        aside { width: 250px; background-color: #ffffff; border-right: 1px solid #e2e8f0; display: flex; flex-direction: column; flex-shrink: 0; }
+        .brand-box { padding: 20px; text-align: center; border-bottom: 1px solid #f1f5f9; }
+        .btn-store { margin: 15px; padding: 12px; background-color: #2563eb; color: white; border-radius: 8px; text-decoration: none; text-align: center; font-weight: 700; font-size: 0.85rem; display: block; }
+        .menu-list { list-style: none; padding: 10px; overflow-y: auto; flex-grow: 1; }
+        .menu-link { display: flex; align-items: center; gap: 12px; padding: 10px 14px; color: #64748b; text-decoration: none; border-radius: 8px; font-size: 0.85rem; font-weight: 600; margin-bottom: 2px; }
+        .menu-link:hover, .menu-link.active { background-color: #2563eb; color: white; }
+
+        /* MAIN CONTENT */
+        main { flex-grow: 1; display: flex; flex-direction: column; overflow-y: auto; }
+        header { background-color: #ffffff; padding: 12px 25px; border-bottom: 1px solid #e2e8f0; display: flex; justify-content: space-between; align-items: center; }
+        .breadcrumb { font-size: 0.75rem; color: #94a3b8; font-weight: 700; text-transform: uppercase; }
+        .page-title { font-size: 1.2rem; font-weight: 800; color: #0f172a; }
+
+        .container { padding: 25px; display: flex; flex-direction: column; gap: 20px; }
+
+        /* HEADER CARD */
+        .header-card { background: white; border-radius: 12px; padding: 18px 24px; border: 1px solid #e2e8f0; display: flex; justify-content: space-between; align-items: center; }
+        .header-card h3 { font-size: 1rem; font-weight: 800; color: #0f172a; }
+        .header-card p { font-size: 0.8rem; color: #64748b; margin-top: 2px; }
+        .turno-badge { background: #f1f5f9; padding: 6px 12px; border-radius: 6px; font-size: 0.75rem; font-weight: 700; color: #475569; display: flex; align-items: center; gap: 8px; }
+
+        /* APERTURA TURNO CARD */
+        .turno-card { background: white; border-radius: 12px; padding: 20px 24px; border: 1px solid #e2e8f0; display: flex; justify-content: space-between; align-items: center; }
+        .turno-card-left h4 { font-size: 0.9rem; font-weight: 800; color: #0f172a; }
+        .turno-card-left p { font-size: 0.75rem; color: #64748b; margin-top: 2px; }
+        
+        .turno-form { display: flex; align-items: center; gap: 15px; }
+        .turno-form label { font-size: 0.75rem; font-weight: 700; color: #64748b; text-transform: uppercase; }
+        .turno-form input { padding: 8px 12px; border: 1px solid #cbd5e1; border-radius: 8px; font-size: 0.85rem; outline: none; width: 150px; }
+        .btn-abrir { background: #2563eb; color: white; border: none; padding: 9px 18px; border-radius: 8px; font-weight: 700; font-size: 0.85rem; cursor: pointer; }
+
+        /* TABS SECTION */
+        .tabs-card { background: white; border-radius: 12px; border: 1px solid #e2e8f0; overflow: hidden; }
+        .tabs-header { display: flex; border-bottom: 1px solid #e2e8f0; background: #f8fafc; padding: 0 20px; }
+        .tab-item { padding: 14px 16px; font-size: 0.8rem; font-weight: 700; color: #64748b; text-decoration: none; border-bottom: 2px solid transparent; cursor: pointer; display: flex; align-items: center; gap: 6px; }
+        .tab-item.active { color: #2563eb; border-bottom-color: #2563eb; background: white; }
+
+        .tabs-content { padding: 24px; display: flex; flex-direction: column; gap: 20px; }
+        .tabs-content-header { display: flex; justify-content: space-between; align-items: center; }
+        .tabs-content-header h4 { font-size: 0.9rem; font-weight: 800; color: #0f172a; }
+        .tabs-content-header p { font-size: 0.75rem; color: #64748b; margin-top: 2px; }
+
+        .btn-cobrar-mesa { background: white; border: 1px solid #cbd5e1; padding: 8px 14px; border-radius: 8px; font-size: 0.8rem; font-weight: 700; color: #334155; cursor: pointer; }
+
+        .search-box { background: white; border: 1px solid #e2e8f0; border-radius: 8px; padding: 10px 14px; display: flex; align-items: center; gap: 10px; }
+        .search-box input { border: none; outline: none; width: 100%; font-size: 0.85rem; }
+
+        .empty-cobros { text-align: center; padding: 40px; color: #94a3b8; font-size: 0.8rem; font-weight: 700; text-transform: uppercase; border-bottom: 1px solid #f1f5f9; }
+        .footer-aviso { font-size: 0.75rem; color: #d97706; font-weight: 600; text-align: center; background: #fffbeb; padding: 10px; border-radius: 6px; }
+    </style>
+</head>
+<body>
+
+    <!-- MENÚ LATERAL -->
+    <aside>
+        <div class="brand-box">
+            <h3 style="font-weight: 800; color: #2563eb;">🐾 LOLO SAAS</h3>
+        </div>
+        <a href="index.html" target="_blank" class="btn-store">🌐 VER TIENDA</a>
+        <ul class="menu-list">
+            <li><a href="admin.html" class="menu-link">📊 DASHBOARD</a></li>
+            <li><a href="pedidos.html" class="menu-link">🛒 PEDIDOS</a></li>
+            <li><a href="clientes.html" class="menu-link">👤 CLIENTES</a></li>
+            <li><a href="kds.html" class="menu-link">⏱️ KDS (COCINA)</a></li>
+            <li><a href="mesas.html" class="menu-link">🪑 MESAS</a></li>
+            <li><a href="financiero.html" class="menu-link">🏛️ FINANCIERO</a></li>
+            <li><a href="caja.html" class="menu-link active">💵 CAJA</a></li>
+            <li><a href="comprobantes.html" class="menu-link">📄 COMPROBANTES</a></li>
+            <li><a href="reportes.html" class="menu-link">📈 REPORTES</a></li>
+            <li><a href="productos.html" class="menu-link">📦 MENÚ</a></li>
+            <li><a href="delivery.html" class="menu-link">🛵 DELIVERY</a></li>
+            <li><a href="cupones.html" class="menu-link">🏷️ CUPONES</a></li>
+        </ul>
+    </aside>
+
+    <!-- CONTENIDO -->
+    <main>
+        <header>
+            <div>
+                <div class="breadcrumb">INICIO > TIENDA > MI COMERCIO</div>
+                <div class="page-title">Caja</div>
+            </div>
+            <div style="font-size: 0.85rem; font-weight: 700; color: #475569;">
+                🟢 Tienda Activa | 👤 Administrador
+            </div>
+        </header>
+
+        <div class="container">
+            
+            <!-- TARJETA ENCABEZADO -->
+            <div class="header-card">
+                <div>
+                    <h3>💵 CAJA</h3>
+                    <p>Turnos, cobros y rendiciones</p>
+                </div>
+                <div class="turno-badge">
+                    <span>Sin turno abierto</span> 🔄
+                </div>
+            </div>
+
+            <!-- APERTURA DE TURNO -->
+            <div class="turno-card">
+                <div class="turno-card-left">
+                    <h4>Iniciar turno</h4>
+                    <p>Registrá el efectivo disponible antes de cobrar.</p>
+                </div>
+                <div class="turno-form">
+                    <div>
+                        <label>Efectivo inicial</label>
+                        <input type="number" placeholder="0">
+                    </div>
+                    <button class="btn-abrir">Abrir turno</button>
+                </div>
+            </div>
+
+            <!-- TABS Y CONTENIDO DE CAJA -->
+            <div class="tabs-card">
+                <div class="tabs-header">
+                    <div class="tab-item active">💳 Cobros</div>
+                    <div class="tab-item">📄 Rendiciones</div>
+                    <div class="tab-item">🔄 Movimientos</div>
+                    <div class="tab-item">📊 Arqueo</div>
+                    <div class="tab-item">📜 Historial</div>
+                </div>
+
+                <div class="tabs-content">
+                    <div class="tabs-content-header">
+                        <div>
+                            <h4>Pedidos por cobrar</h4>
+                            <p>Pedidos completados sin pago registrado. Últimos 200 pedidos.</p>
+                        </div>
+                        <button class="btn-cobrar-mesa">🪑 Cobrar cuentas de mesa</button>
+                    </div>
+
+                    <div class="search-box">
+                        🔍 <input type="text" placeholder="Buscar pedido o cliente...">
+                    </div>
+
+                    <div class="empty-cobros">
+                        No hay pedidos pendientes de cobro en este listado.
+                    </div>
+
+                    <div class="footer-aviso">
+                        ⚠️ Abrí un turno para registrar cobros desde Caja.
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </main>
+
+</body>
+</html>
