@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>KDS Cocina - Lolo SaaS</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Inter', sans-serif; }
+        body { background-color: #f4f6f8; color: #1e293b; display: flex; height: 100vh; overflow: hidden; }
+
+        /* SIDEBAR */
+        aside { width: 250px; background-color: #ffffff; border-right: 1px solid #e2e8f0; display: flex; flex-direction: column; flex-shrink: 0; }
+        .brand-box { padding: 20px; text-align: center; border-bottom: 1px solid #f1f5f9; }
+        .btn-store { margin: 15px; padding: 12px; background-color: #2563eb; color: white; border-radius: 8px; text-decoration: none; text-align: center; font-weight: 700; font-size: 0.85rem; display: block; }
+        .menu-list { list-style: none; padding: 10px; overflow-y: auto; flex-grow: 1; }
+        .menu-link { display: flex; align-items: center; gap: 12px; padding: 10px 14px; color: #64748b; text-decoration: none; border-radius: 8px; font-size: 0.85rem; font-weight: 600; margin-bottom: 2px; }
+        .menu-link:hover, .menu-link.active { background-color: #2563eb; color: white; }
+
+        /* MAIN CONTENT */
+        main { flex-grow: 1; display: flex; flex-direction: column; overflow-y: auto; }
+        header { background-color: #ffffff; padding: 15px 30px; border-bottom: 1px solid #e2e8f0; display: flex; justify-content: space-between; align-items: center; }
+        .page-title { font-size: 1.2rem; font-weight: 800; color: #0f172a; }
+
+        .kds-container { padding: 25px; display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; flex-grow: 1; overflow-x: auto; }
+        
+        /* KDS COLUMNS */
+        .kds-column { background: #e2e8f033; border: 1px solid #e2e8f0; border-radius: 12px; display: flex; flex-direction: column; max-height: calc(100vh - 120px); }
+        .column-header { padding: 15px; font-weight: 800; font-size: 0.85rem; text-transform: uppercase; border-bottom: 1px solid #e2e8f0; background: white; border-top-left-radius: 12px; border-top-right-radius: 12px; display: flex; justify-content: space-between; align-items: center; }
+        .column-body { padding: 15px; overflow-y: auto; display: flex; flex-direction: column; gap: 15px; flex-grow: 1; }
+
+        /* KDS CARD (PEDIDO EN COCINA) */
+        .kds-card { background: white; border-radius: 10px; border: 1px solid #cbd5e1; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05); padding: 15px; display: flex; flex-direction: column; gap: 10px; }
+        .kds-card-header { display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #f1f5f9; padding-bottom: 8px; }
+        .order-id { font-weight: 800; font-size: 0.95rem; color: #2563eb; }
+        .order-time { font-size: 0.75rem; color: #64748b; font-weight: 600; }
+        
+        .order-items { list-style: none; display: flex; flex-direction: column; gap: 6px; font-size: 0.85rem; color: #334155; }
+        .order-items li { display: flex; justify-content: space-between; }
+        .item-qty { font-weight: 700; color: #0f172a; background: #f1f5f9; padding: 2px 6px; border-radius: 4px; }
+
+        .order-notes { font-size: 0.75rem; background: #fef3c7; color: #92400e; padding: 6px 10px; border-radius: 6px; font-weight: 600; }
+        
+        .btn-kds-action { width: 100%; padding: 8px; border: none; border-radius: 6px; font-size: 0.75rem; font-weight: 700; cursor: pointer; text-transform: uppercase; background: #2563eb; color: white; margin-top: 5px; }
+        .btn-kds-action:hover { background: #1d4ed8; }
+    </style>
+</head>
+<body>
+    <aside>
+        <div class="brand-box">
+            <h3 style="font-weight: 800; color: #2563eb;">🐾 LOLO SAAS</h3>
+        </div>
+        <a href="index.html" target="_blank" class="btn-store">🌐 VER TIENDA</a>
+        <ul class="menu-list">
+            <li><a href="admin.html" class="menu-link">📊 Dashboard</a></li>
+            <li><a href="pedidos.html" class="menu-link">🛒 Pedidos</a></li>
+            <li><a href="clientes.html" class="menu-link">👥 Clientes</a></li>
+            <li><a href="kds.html" class="menu-link active">⏱️ KDS (Cocina)</a></li>
+            <li><a href="mesas.html" class="menu-link">🪑 Mesas</a></li>
+            <li><a href="financiero.html" class="menu-link">🏛️ Financiero</a></li>
+            <li><a href="caja.html" class="menu-link">💵 Caja</a></li>
+            <li><a href="comprobantes.html" class="menu-link">📄 Comprobantes</a></li>
+            <li><a href="reportes.html" class="menu-link">📈 Reportes</a></li>
+            <li><a href="productos.html" class="menu-link">📦 Menú / Productos</a></li>
+            <li><a href="delivery.html" class="menu-link">🛵 Delivery</a></li>
+            <li><a href="cupones.html" class="menu-link">🏷️ Cupones</a></li>
+            <li><a href="configuracion.html" class="menu-link">⚙️ Configuración</a></li>
+        </ul>
+    </aside>
+
+    <main>
+        <header>
+            <div class="page-title">KDS - Pantalla de Cocina en Vivo</div>
+            <div style="font-size: 0.85rem; font-weight: 700; color: #475569;">🟢 Tienda Activa | 👤 Administrador</div>
+        </header>
+
+        <div class="kds-container">
+            <!-- COLUMNA 1: NUEVOS / PENDIENTES -->
+            <div class="kds-column">
+                <div class="column-header">
+                    <span>⏳ Nuevos / Pendientes</span>
+                    <span style="background: #e2e8f0; padding: 2px 8px; border-radius: 10px; font-size: 0.75rem;">1</span>
+                </div>
+                <div class="column-body">
+                    <div class="kds-card">
+                        <div class="kds-card-header">
+                            <span class="order-id">#1042</span>
+                            <span class="order-time">Hace 3 min</span>
+                        </div>
+                        <ul class="order-items">
+                            <li><span>6x Empanadas de Carne</span> <span class="item-qty">6</span></li>
+                            <li><span>2x Empanadas de Jamón y Queso</span> <span class="item-qty">2</span></li>
+                        </ul>
+                        <div class="order-notes">⚠️ Nota: Bien doradas por favor.</div>
+                        <button class="btn-kds-action">Aceptar y Enviar a Cocina ➔</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- COLUMNA 2: EN PREPARACIÓN -->
+            <div class="kds-column">
+                <div class="column-header">
+                    <span>🔥 En Cocina</span>
+                    <span style="background: #e2e8f0; padding: 2px 8px; border-radius: 10px; font-size: 0.75rem;">1</span>
+                </div>
+                <div class="column-body">
+                    <div class="kds-card" style="border-left: 4px solid #f59e0b;">
+                        <div class="kds-card-header">
+                            <span class="order-id">#1041</span>
+                            <span class="order-time">Hace 12 min</span>
+                        </div>
+                        <ul class="order-items">
+                            <li><span>12x Empanadas Surtidas (Grasa de cerdo)</span> <span class="item-qty">12</span></li>
+                        </ul>
+                        <button class="btn-kds-action" style="background: #16a34a;">Marcar como Listo ✔️</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- COLUMNA 3: LISTOS PARA DESPACHO -->
+            <div class="kds-column">
+                <div class="column-header">
+                    <span>✅ Listos para Despacho</span>
+                    <span style="background: #e2e8f0; padding: 2px 8px; border-radius: 10px; font-size: 0.75rem;">0</span>
+                </div>
+                <div class="column-body" style="justify-content: center; align-items: center; color: #94a3b8; font-size: 0.8rem; font-weight: 700; text-align: center;">
+                    SIN PEDIDOS LISTOS
+                </div>
+            </div>
+        </div>
+    </main>
+</body>
+</html>
