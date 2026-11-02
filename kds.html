@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>KDS Cocina - Lolo SaaS</title>
+    <title>KDS Cocina & Entregas - Lolo SaaS</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <style>
         * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Inter', sans-serif; }
@@ -19,115 +19,156 @@
 
         /* MAIN CONTENT */
         main { flex-grow: 1; display: flex; flex-direction: column; overflow-y: auto; }
-        header { background-color: #ffffff; padding: 15px 30px; border-bottom: 1px solid #e2e8f0; display: flex; justify-content: space-between; align-items: center; }
+        header { background-color: #ffffff; padding: 12px 25px; border-bottom: 1px solid #e2e8f0; display: flex; justify-content: space-between; align-items: center; }
+        .breadcrumb { font-size: 0.75rem; color: #94a3b8; font-weight: 700; text-transform: uppercase; }
         .page-title { font-size: 1.2rem; font-weight: 800; color: #0f172a; }
 
-        .kds-container { padding: 25px; display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; flex-grow: 1; overflow-x: auto; }
-        
-        /* KDS COLUMNS */
-        .kds-column { background: #e2e8f033; border: 1px solid #e2e8f0; border-radius: 12px; display: flex; flex-direction: column; max-height: calc(100vh - 120px); }
-        .column-header { padding: 15px; font-weight: 800; font-size: 0.85rem; text-transform: uppercase; border-bottom: 1px solid #e2e8f0; background: white; border-top-left-radius: 12px; border-top-right-radius: 12px; display: flex; justify-content: space-between; align-items: center; }
-        .column-body { padding: 15px; overflow-y: auto; display: flex; flex-direction: column; gap: 15px; flex-grow: 1; }
+        .container { padding: 25px; display: flex; flex-direction: column; gap: 20px; }
 
-        /* KDS CARD (PEDIDO EN COCINA) */
-        .kds-card { background: white; border-radius: 10px; border: 1px solid #cbd5e1; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05); padding: 15px; display: flex; flex-direction: column; gap: 10px; }
-        .kds-card-header { display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #f1f5f9; padding-bottom: 8px; }
-        .order-id { font-weight: 800; font-size: 0.95rem; color: #2563eb; }
-        .order-time { font-size: 0.75rem; color: #64748b; font-weight: 600; }
-        
-        .order-items { list-style: none; display: flex; flex-direction: column; gap: 6px; font-size: 0.85rem; color: #334155; }
-        .order-items li { display: flex; justify-content: space-between; }
-        .item-qty { font-weight: 700; color: #0f172a; background: #f1f5f9; padding: 2px 6px; border-radius: 4px; }
+        /* HEADER CARD */
+        .header-card { background: white; border-radius: 12px; padding: 18px 24px; border: 1px solid #e2e8f0; display: flex; justify-content: space-between; align-items: center; }
+        .header-card h3 { font-size: 1rem; font-weight: 800; color: #0f172a; display: flex; align-items: center; gap: 10px; }
+        .header-card p { font-size: 0.8rem; color: #64748b; margin-top: 2px; }
 
-        .order-notes { font-size: 0.75rem; background: #fef3c7; color: #92400e; padding: 6px 10px; border-radius: 6px; font-weight: 600; }
+        .btn-tv { background: white; border: 1px solid #cbd5e1; padding: 8px 14px; border-radius: 8px; font-size: 0.8rem; font-weight: 700; color: #334155; cursor: pointer; display: flex; align-items: center; gap: 6px; }
+
+        /* GRID DE ESTADOS EN KDS */
+        .kds-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
+
+        .state-card { background: white; border-radius: 12px; border: 1px solid #e2e8f0; min-height: 220px; display: flex; flex-direction: column; position: relative; overflow: hidden; }
         
-        .btn-kds-action { width: 100%; padding: 8px; border: none; border-radius: 6px; font-size: 0.75rem; font-weight: 700; cursor: pointer; text-transform: uppercase; background: #2563eb; color: white; margin-top: 5px; }
-        .btn-kds-action:hover { background: #1d4ed8; }
+        .state-header { padding: 15px 18px; border-bottom: 1px solid #f1f5f9; display: flex; justify-content: space-between; align-items: flex-start; position: relative; }
+        .state-header::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 4px; }
+
+        /* COLORES DE BORDES SUPERIORES */
+        .card-nuevos .state-header::before { background-color: #f59e0b; }
+        .card-aceptados .state-header::before { background-color: #06b6d4; }
+        .card-cocina .state-header::before { background-color: #3b82f6; }
+        .card-listos .state-header::before { background-color: #a855f7; }
+        .card-reparto .state-header::before { background-color: #10b981; }
+        .card-servidos .state-header::before { background-color: #059669; }
+
+        .state-title { font-size: 0.75rem; font-weight: 800; text-transform: uppercase; color: #475569; display: flex; align-items: center; gap: 6px; }
+        .state-subtitle { font-size: 0.7rem; font-weight: 700; color: #a855f7; text-transform: uppercase; margin-top: 2px; }
+        .state-count { font-weight: 800; font-size: 0.9rem; color: #0f172a; }
+
+        .state-body { flex-grow: 1; display: flex; flex-direction: column; justify-content: center; align-items: center; padding: 20px; color: #94a3b8; font-size: 0.75rem; font-weight: 700; text-transform: uppercase; text-align: center; }
     </style>
 </head>
 <body>
+
+    <!-- MENÚ LATERAL -->
     <aside>
         <div class="brand-box">
             <h3 style="font-weight: 800; color: #2563eb;">🐾 LOLO SAAS</h3>
         </div>
         <a href="index.html" target="_blank" class="btn-store">🌐 VER TIENDA</a>
         <ul class="menu-list">
-            <li><a href="admin.html" class="menu-link">📊 Dashboard</a></li>
-            <li><a href="pedidos.html" class="menu-link">🛒 Pedidos</a></li>
-            <li><a href="clientes.html" class="menu-link">👥 Clientes</a></li>
-            <li><a href="kds.html" class="menu-link active">⏱️ KDS (Cocina)</a></li>
-            <li><a href="mesas.html" class="menu-link">🪑 Mesas</a></li>
-            <li><a href="financiero.html" class="menu-link">🏛️ Financiero</a></li>
-            <li><a href="caja.html" class="menu-link">💵 Caja</a></li>
-            <li><a href="comprobantes.html" class="menu-link">📄 Comprobantes</a></li>
-            <li><a href="reportes.html" class="menu-link">📈 Reportes</a></li>
-            <li><a href="productos.html" class="menu-link">📦 Menú / Productos</a></li>
-            <li><a href="delivery.html" class="menu-link">🛵 Delivery</a></li>
-            <li><a href="cupones.html" class="menu-link">🏷️ Cupones</a></li>
-            <li><a href="configuracion.html" class="menu-link">⚙️ Configuración</a></li>
+            <li><a href="admin.html" class="menu-link">📊 DASHBOARD</a></li>
+            <li><a href="pedidos.html" class="menu-link">🛒 PEDIDOS</a></li>
+            <li><a href="clientes.html" class="menu-link">👤 CLIENTES</a></li>
+            <li><a href="kds.html" class="menu-link active">⏱️ KDS (COCINA)</a></li>
+            <li><a href="mesas.html" class="menu-link">🪑 MESAS</a></li>
+            <li><a href="financiero.html" class="menu-link">🏛️ FINANCIERO</a></li>
+            <li><a href="caja.html" class="menu-link">💵 CAJA</a></li>
+            <li><a href="comprobantes.html" class="menu-link">📄 COMPROBANTES</a></li>
+            <li><a href="reportes.html" class="menu-link">📈 REPORTES</a></li>
+            <li><a href="productos.html" class="menu-link">📦 MENÚ</a></li>
+            <li><a href="delivery.html" class="menu-link">🛵 DELIVERY</a></li>
+            <li><a href="cupones.html" class="menu-link">🏷️ CUPONES</a></li>
         </ul>
     </aside>
 
+    <!-- CONTENIDO -->
     <main>
         <header>
-            <div class="page-title">KDS - Pantalla de Cocina en Vivo</div>
-            <div style="font-size: 0.85rem; font-weight: 700; color: #475569;">🟢 Tienda Activa | 👤 Administrador</div>
+            <div>
+                <div class="breadcrumb">INICIO > TIENDA > MI COMERCIO</div>
+                <div class="page-title">Kds</div>
+            </div>
+            <div style="font-size: 0.85rem; font-weight: 700; color: #475569;">
+                🟢 Tienda Activa | 👤 Administrador
+            </div>
         </header>
 
-        <div class="kds-container">
-            <!-- COLUMNA 1: NUEVOS / PENDIENTES -->
-            <div class="kds-column">
-                <div class="column-header">
-                    <span>⏳ Nuevos / Pendientes</span>
-                    <span style="background: #e2e8f0; padding: 2px 8px; border-radius: 10px; font-size: 0.75rem;">1</span>
+        <div class="container">
+            
+            <!-- TARJETA ENCABEZADO -->
+            <div class="header-card">
+                <div>
+                    <h3>📦 COCINA & ENTREGAS</h3>
+                    <p>Seguimiento en tiempo real de pedidos en preparación</p>
                 </div>
-                <div class="column-body">
-                    <div class="kds-card">
-                        <div class="kds-card-header">
-                            <span class="order-id">#1042</span>
-                            <span class="order-time">Hace 3 min</span>
-                        </div>
-                        <ul class="order-items">
-                            <li><span>6x Empanadas de Carne</span> <span class="item-qty">6</span></li>
-                            <li><span>2x Empanadas de Jamón y Queso</span> <span class="item-qty">2</span></li>
-                        </ul>
-                        <div class="order-notes">⚠️ Nota: Bien doradas por favor.</div>
-                        <button class="btn-kds-action">Aceptar y Enviar a Cocina ➔</button>
-                    </div>
-                </div>
+                <button class="btn-tv">📺 Pantalla TV</button>
             </div>
 
-            <!-- COLUMNA 2: EN PREPARACIÓN -->
-            <div class="kds-column">
-                <div class="column-header">
-                    <span>🔥 En Cocina</span>
-                    <span style="background: #e2e8f0; padding: 2px 8px; border-radius: 10px; font-size: 0.75rem;">1</span>
-                </div>
-                <div class="column-body">
-                    <div class="kds-card" style="border-left: 4px solid #f59e0b;">
-                        <div class="kds-card-header">
-                            <span class="order-id">#1041</span>
-                            <span class="order-time">Hace 12 min</span>
-                        </div>
-                        <ul class="order-items">
-                            <li><span>12x Empanadas Surtidas (Grasa de cerdo)</span> <span class="item-qty">12</span></li>
-                        </ul>
-                        <button class="btn-kds-action" style="background: #16a34a;">Marcar como Listo ✔️</button>
+            <!-- GRID DE 6 SECCIONES -->
+            <div class="kds-grid">
+                
+                <!-- NUEVOS -->
+                <div class="state-card card-nuevos">
+                    <div class="state-header">
+                        <div class="state-title">🟠 NUEVOS</div>
+                        <div class="state-count">0</div>
                     </div>
+                    <div class="state-body">SIN PEDIDOS NUEVOS</div>
                 </div>
+
+                <!-- ACEPTADOS -->
+                <div class="state-card card-aceptados">
+                    <div class="state-header">
+                        <div class="state-title">🔹 ACEPTADOS</div>
+                        <div class="state-count">0</div>
+                    </div>
+                    <div class="state-body">SIN PEDIDOS ACEPTADOS</div>
+                </div>
+
+                <!-- EN COCINA -->
+                <div class="state-card card-cocina">
+                    <div class="state-header">
+                        <div class="state-title">🔵 EN COCINA</div>
+                        <div class="state-count">0</div>
+                    </div>
+                    <div class="state-body">SIN PEDIDOS EN COCINA</div>
+                </div>
+
+                <!-- LISTOS -->
+                <div class="state-card card-listos">
+                    <div class="state-header">
+                        <div>
+                            <div class="state-title">📦 LISTOS</div>
+                            <div class="state-subtitle">PARA RETIRAR, SERVIR O DESPACHAR</div>
+                        </div>
+                        <div class="state-count">0</div>
+                    </div>
+                    <div class="state-body">SIN PEDIDOS LISTOS</div>
+                </div>
+
+                <!-- EN REPARTO -->
+                <div class="state-card card-reparto">
+                    <div class="state-header">
+                        <div>
+                            <div class="state-title">🛵 EN REPARTO</div>
+                            <div class="state-subtitle" style="color: #10b981;">PEDIDO CON DELIVERY CAMINO AL CLIENTE</div>
+                        </div>
+                        <div class="state-count">0</div>
+                    </div>
+                    <div class="state-body">SIN PEDIDOS EN REPARTO</div>
+                </div>
+
+                <!-- SERVIDOS / ENTREGADOS -->
+                <div class="state-card card-servidos">
+                    <div class="state-header">
+                        <div class="state-title">🟢 SERVIDOS / ENTREGADOS</div>
+                        <div class="state-count">0</div>
+                    </div>
+                    <div class="state-body">SIN ENTREGAS HOY</div>
+                </div>
+
             </div>
 
-            <!-- COLUMNA 3: LISTOS PARA DESPACHO -->
-            <div class="kds-column">
-                <div class="column-header">
-                    <span>✅ Listos para Despacho</span>
-                    <span style="background: #e2e8f0; padding: 2px 8px; border-radius: 10px; font-size: 0.75rem;">0</span>
-                </div>
-                <div class="column-body" style="justify-content: center; align-items: center; color: #94a3b8; font-size: 0.8rem; font-weight: 700; text-align: center;">
-                    SIN PEDIDOS LISTOS
-                </div>
-            </div>
         </div>
     </main>
+
 </body>
 </html>
