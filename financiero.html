@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Financiero - Lolo SaaS</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Inter', sans-serif; }
+        body { background-color: #f4f6f8; color: #1e293b; display: flex; height: 100vh; overflow: hidden; }
+
+        /* SIDEBAR */
+        aside { width: 250px; background-color: #ffffff; border-right: 1px solid #e2e8f0; display: flex; flex-direction: column; flex-shrink: 0; }
+        .brand-box { padding: 20px; text-align: center; border-bottom: 1px solid #f1f5f9; }
+        .btn-store { margin: 15px; padding: 12px; background-color: #2563eb; color: white; border-radius: 8px; text-decoration: none; text-align: center; font-weight: 700; font-size: 0.85rem; display: block; }
+        .menu-list { list-style: none; padding: 10px; overflow-y: auto; flex-grow: 1; }
+        .menu-link { display: flex; align-items: center; gap: 12px; padding: 10px 14px; color: #64748b; text-decoration: none; border-radius: 8px; font-size: 0.85rem; font-weight: 600; margin-bottom: 2px; }
+        .menu-link:hover, .menu-link.active { background-color: #2563eb; color: white; }
+
+        /* MAIN CONTENT */
+        main { flex-grow: 1; display: flex; flex-direction: column; overflow-y: auto; }
+        header { background-color: #ffffff; padding: 12px 25px; border-bottom: 1px solid #e2e8f0; display: flex; justify-content: space-between; align-items: center; }
+        .breadcrumb { font-size: 0.75rem; color: #94a3b8; font-weight: 700; text-transform: uppercase; }
+        .page-title { font-size: 1.2rem; font-weight: 800; color: #0f172a; }
+
+        .container { padding: 25px; display: flex; flex-direction: column; gap: 20px; }
+
+        /* HEADER CARD */
+        .header-card { background: white; border-radius: 12px; padding: 18px 24px; border: 1px solid #e2e8f0; display: flex; justify-content: space-between; align-items: center; }
+        .header-card h3 { font-size: 1rem; font-weight: 800; color: #0f172a; }
+        .header-card p { font-size: 0.8rem; color: #64748b; margin-top: 2px; }
+        .btn-refresh { background: white; border: 1px solid #cbd5e1; padding: 8px 16px; border-radius: 8px; font-size: 0.8rem; font-weight: 700; color: #334155; cursor: pointer; }
+
+        /* METRICS GRID */
+        .metrics-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 15px; }
+        .metric-card { background: white; padding: 18px; border-radius: 12px; border: 1px solid #e2e8f0; }
+        .metric-title { font-size: 0.75rem; font-weight: 700; color: #64748b; text-transform: uppercase; }
+        .metric-value { font-size: 1.4rem; font-weight: 800; color: #0f172a; margin: 6px 0; }
+        .metric-sub { font-size: 0.75rem; color: #94a3b8; }
+
+        /* TWO COLUMNS SECTION */
+        .two-cols { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+        .section-box { background: white; border-radius: 12px; padding: 20px; border: 1px solid #e2e8f0; display: flex; flex-direction: column; gap: 15px; }
+        .section-title { font-size: 0.85rem; font-weight: 800; color: #0f172a; text-transform: uppercase; }
+
+        /* BARS & STATUS ITEMS */
+        .progress-item { display: flex; flex-direction: column; gap: 6px; }
+        .progress-info { display: flex; justify-content: space-between; font-size: 0.8rem; font-weight: 700; color: #475569; }
+        .progress-bar { width: 100%; height: 8px; background: #f1f5f9; border-radius: 4px; overflow: hidden; }
+        .progress-fill { height: 100%; background: #2563eb; width: 0%; }
+
+        .status-row { display: flex; justify-content: space-between; align-items: center; padding: 12px 16px; border-radius: 8px; border: 1px solid #e2e8f0; }
+        .status-row.green { background: #f0fdf4; border-color: #bbf7d0; }
+        .status-row.blue { background: #eff6ff; border-color: #bfdbfe; }
+        .status-row.red { background: #fef2f2; border-color: #fecaca; }
+        
+        .status-label { font-size: 0.8rem; font-weight: 700; display: flex; align-items: center; gap: 8px; }
+        .status-amount { font-size: 0.9rem; font-weight: 800; }
+
+        /* RANKING CARD */
+        .ranking-card { background: white; border-radius: 12px; padding: 20px; border: 1px solid #e2e8f0; display: flex; flex-direction: column; gap: 15px; }
+        .empty-ranking { text-align: center; padding: 30px; color: #94a3b8; font-size: 0.8rem; font-weight: 700; text-transform: uppercase; }
+    </style>
+</head>
+<body>
+
+    <!-- MENÚ LATERAL -->
+    <aside>
+        <div class="brand-box">
+            <h3 style="font-weight: 800; color: #2563eb;">🐾 LOLO SAAS</h3>
+        </div>
+        <a href="index.html" target="_blank" class="btn-store">🌐 VER TIENDA</a>
+        <ul class="menu-list">
+            <li><a href="admin.html" class="menu-link">📊 DASHBOARD</a></li>
+            <li><a href="pedidos.html" class="menu-link">🛒 PEDIDOS</a></li>
+            <li><a href="clientes.html" class="menu-link">👤 CLIENTES</a></li>
+            <li><a href="kds.html" class="menu-link">⏱️ KDS (COCINA)</a></li>
+            <li><a href="mesas.html" class="menu-link">🪑 MESAS</a></li>
+            <li><a href="financiero.html" class="menu-link active">🏛️ FINANCIERO</a></li>
+            <li><a href="caja.html" class="menu-link">💵 CAJA</a></li>
+            <li><a href="comprobantes.html" class="menu-link">📄 COMPROBANTES</a></li>
+            <li><a href="reportes.html" class="menu-link">📈 REPORTES</a></li>
+            <li><a href="productos.html" class="menu-link">📦 MENÚ</a></li>
+            <li><a href="delivery.html" class="menu-link">🛵 DELIVERY</a></li>
+            <li><a href="cupones.html" class="menu-link">🏷️ CUPONES</a></li>
+        </ul>
+    </aside>
+
+    <!-- CONTENIDO -->
+    <main>
+        <header>
+            <div>
+                <div class="breadcrumb">INICIO > TIENDA > MI COMERCIO</div>
+                <div class="page-title">Financiero</div>
+            </div>
+            <div style="font-size: 0.85rem; font-weight: 700; color: #475569;">
+                🟢 Tienda Activa | 👤 Administrador
+            </div>
+        </header>
+
+        <div class="container">
+            
+            <!-- TARJETA ENCABEZADO -->
+            <div class="header-card">
+                <div>
+                    <h3>🏛️ RESUMEN FINANCIERO & RECAUDACIÓN</h3>
+                    <p>Balance general, facturación acumulada e ingresos por modalidad</p>
+                </div>
+                <button class="btn-refresh">Actualizar Datos</button>
+            </div>
+
+            <!-- MÉTRICAS SUPERIORES -->
+            <div class="metrics-grid">
+                <div class="metric-card">
+                    <div class="metric-title">VENTAS TOTALES</div>
+                    <div class="metric-value">Gs. 0</div>
+                    <div class="metric-sub">Facturación acumulada</div>
+                </div>
+                <div class="metric-card">
+                    <div class="metric-title">PEDIDOS TOTALES</div>
+                    <div class="metric-value">0</div>
+                    <div class="metric-sub">Órdenes procesadas</div>
+                </div>
+                <div class="metric-card">
+                    <div class="metric-title">TICKET PROMEDIO</div>
+                    <div class="metric-value">Gs. 0</div>
+                    <div class="metric-sub">Por pedido cerrado</div>
+                </div>
+                <div class="metric-card">
+                    <div class="metric-title">COMPLETADOS</div>
+                    <div class="metric-value">0</div>
+                    <div class="metric-sub">Gs. 0</div>
+                </div>
+            </div>
+
+            <!-- DOS COLUMNAS -->
+            <div class="two-cols">
+                <!-- INGRESOS POR MODALIDAD -->
+                <div class="section-box">
+                    <div class="section-title">INGRESOS POR MODALIDAD DE ENTREGA</div>
+                    <div class="progress-item">
+                        <div class="progress-info">
+                            <span>Delivery (0%)</span>
+                            <span>Gs. 0</span>
+                        </div>
+                        <div class="progress-bar"><div class="progress-fill" style="width: 0%;"></div></div>
+                    </div>
+                    <div class="progress-item" style="margin-top: 10px;">
+                        <div class="progress-info">
+                            <span>Retiro en local (0%)</span>
+                            <span>Gs. 0</span>
+                        </div>
+                        <div class="progress-bar"><div class="progress-fill" style="width: 0%;"></div></div>
+                    </div>
+                </div>
+
+                <!-- FACTURACIÓN POR ESTADO -->
+                <div class="section-box">
+                    <div class="section-title">FACTURACIÓN POR ESTADO DEL PEDIDO</div>
+                    
+                    <div class="status-row green">
+                        <div class="status-label">🟢 Entregados / Cobrados <span style="font-size:0.7rem; color:#16a34a; font-weight:500; display:block;">0 pedidos</span></div>
+                        <div class="status-amount" style="color: #16a34a;">Gs. 0</div>
+                    </div>
+
+                    <div class="status-row blue">
+                        <div class="status-label">🔵 En curso / cocina <span style="font-size:0.7rem; color:#2563eb; font-weight:500; display:block;">0 pedidos</span></div>
+                        <div class="status-amount" style="color: #2563eb;">Gs. 0</div>
+                    </div>
+
+                    <div class="status-row red">
+                        <div class="status-label">🔴 Cancelados <span style="font-size:0.7rem; color:#dc2626; font-weight:500; display:block;">0 pedidos</span></div>
+                        <div class="status-amount" style="color: #dc2626;">Gs. 0</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- RANKING DE PRODUCTOS -->
+            <div class="ranking-card">
+                <div class="section-title">⭐ RANKING DE PRODUCTOS MÁS RENTABLES</div>
+                <div class="empty-ranking">SIN DATOS DE RECAUDACIÓN REGISTRADOS AÚN</div>
+            </div>
+
+        </div>
+    </main>
+
+</body>
+</html>
